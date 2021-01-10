@@ -1,13 +1,10 @@
-package com.example.test1;
+package com.example.timer;
 
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.UUID;
-
-import com.example.test1.GraphModel;
 
 public class MyTimer implements java.io.Serializable{
 
@@ -18,7 +15,7 @@ public class MyTimer implements java.io.Serializable{
 
     // List of groupings. Groups are a subset of nodes (only id).
     // Groups are ordered. They define a loop in the graph.
-    private HashSet<Pair> groups;
+    private HashSet<MyPair> groups;
 
 
     // Currently active Node.
@@ -36,7 +33,7 @@ public class MyTimer implements java.io.Serializable{
 
     public MyTimer(String name){
         this.nodes=new HashMap<String,String[]>();
-        this.groups=new HashSet<String[]>();
+        this.groups=new HashSet<MyPair>();
         this.timer_name = name;
         this.timer_id = createId();
         this.created_on= new Date();

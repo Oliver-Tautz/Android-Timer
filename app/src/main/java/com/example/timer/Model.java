@@ -1,4 +1,4 @@
-package com.example.test1;
+package com.example.timer;
 
 import java.util.ArrayList;
 import java.util.HashMap;

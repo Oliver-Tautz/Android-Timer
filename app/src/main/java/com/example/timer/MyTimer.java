@@ -1,6 +1,7 @@
 package com.example.timer;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,13 +10,22 @@ import java.util.UUID;
 public class MyTimer implements java.io.Serializable{
 
 
+    private static final String ROOTNODE = "ROOT";
+
+
+    private static final String[] EMPTY_ARRAY = new String[0];
+
     // List of nodes. Node is a <String,String[]> pair key=id and value[0]=name value[1]=time.
 
-    private HashMap<String,String[]> nodes;
+    private HashMap<String,MyNode> nodes;
 
     // List of groupings. Groups are a subset of nodes (only id).
     // Groups are ordered. They define a loop in the graph.
-    private HashSet<MyPair> groups;
+    // Groups have a counter. This defines how often it should be looped.
+    private HashSet<Group> groups;
+
+    // Hashmap of edges <source,taget>. <
+    private HashMap<String,String> edges;
 
 
     // Currently active Node.
@@ -32,8 +42,8 @@ public class MyTimer implements java.io.Serializable{
     private Date created_on;
 
     public MyTimer(String name){
-        this.nodes=new HashMap<String,String[]>();
-        this.groups=new HashSet<MyPair>();
+        this.nodes=new HashMap<String,MyNode>();
+        this.groups=new HashSet<Group>();
         this.timer_name = name;
         this.timer_id = createId();
         this.created_on= new Date();
@@ -43,16 +53,16 @@ public class MyTimer implements java.io.Serializable{
 
     }
 
-    private void time(String[] group){
+    private void time(HashSet<Group> groups){
 
-        // Loop for the count
-        for (int i = 0;i<Integer.parseInt(group[GraphModel.GROUP_COUNTER_INDEX]);i++) {
-            for    (int j = 1 ; j< group.length;j++) {
-                for (String[] g : this.groups){
-                    if g.length <
-                }
-            }
+        Group big_g = getBiggestGroup(groups);
+
+        // Loop counter of big_g times
+        for (int i = 0 ; i < big_g.getCounter();i++){
+
         }
+
+
     }
 
 
@@ -61,5 +71,17 @@ public class MyTimer implements java.io.Serializable{
         return UUID.randomUUID().toString();
     }
 
+    private Group getBiggestGroup(HashSet<Group> groups){
+
+        Group empty_group = new Group(0,this.EMPTY_ARRAY);
+        Group current = empty_group;
+        for (Group g : groups){
+            if (g.getGroupSize() > current.getGroupSize()) {
+                current =g;
+            }
+        }
+        return current;
+
+    }
 
 }
